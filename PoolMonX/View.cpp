@@ -199,6 +199,51 @@ BOOL CView::OnIdle() {
 	return FALSE;
 }
 
+LRESULT CView::OnFindDialogMessage(UINT msg, WPARAM wParam, LPARAM lParam, BOOL &) {
+	if (m_pFindDialog->IsTerminating()) {
+		m_pFindDialog = nullptr;
+		return 0;
+	}
+
+	auto searchDown = m_pFindDialog->SearchDown();
+	int start = GetSelectedIndex();
+	CString find(m_pFindDialog->GetFindString());
+	auto ignoreCase = !m_pFindDialog->MatchCase();
+	if (ignoreCase)
+		find.MakeLower();
+
+	int from = searchDown ? start + 1 : start - 1 + GetItemCount();
+	int to = searchDown ? GetItemCount() + start : start + 1;
+	int step = searchDown ? 1 : -1;
+
+	int findIndex = -1;
+	for (int i = from; i != to; i += step) {
+		int index = i % GetItemCount();
+		const auto& item = m_TagsView[index];
+		CString text(item->Tag);
+		if (ignoreCase)
+			text.MakeLower();
+		if (text.Find(find) >= 0) {
+			findIndex = index;
+			break;
+		}
+		text = item->SourceName;
+		if (ignoreCase)
+			text.MakeLower();
+		if (text.Find(find) >= 0) {
+			findIndex = index;
+			break;
+		}
+	}
+
+	if (findIndex >= 0)
+		SelectItem(findIndex);
+	else
+		AtlMessageBox(m_hWnd, L"Not found");
+
+	return 0;
+}
+
 LRESULT CView::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandled) {
 	LRESULT lRet = DefWindowProc(uMsg, wParam, lParam);
 
@@ -365,6 +410,16 @@ LRESULT CView::OnViewFilter(WORD, WORD, HWND, BOOL &) {
 	DoSort();
 	SetItemCountEx((int)m_TagsView.size(), LVSICF_NOINVALIDATEALL | LVSICF_NOSCROLL);
 	UpdateVisible();
+	return 0;
+}
+
+LRESULT CView::OnEditFind(WORD, WORD, HWND, BOOL &) {
+	if (m_pFindDialog == nullptr) {
+		auto dlg = m_pFindDialog = new CFindReplaceDialog;
+		dlg->Create(TRUE, L"", nullptr, FR_DOWN | FR_NOWHOLEWORD, m_hWnd);
+		dlg->ShowWindow(SW_SHOW);
+	}
+
 	return 0;
 }
 
