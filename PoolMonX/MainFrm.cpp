@@ -45,9 +45,9 @@ LRESULT CMainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/
 	AddSimpleReBarBand(hWndCmdBar);
 	AddSimpleReBarBand(hWndToolBar, NULL, TRUE);
 
-	CEdit edit;
-	auto hEdit = edit.Create(m_hWnd, CRect(0, 0, 300, 20), nullptr, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | ES_LOWERCASE);
-	AddSimpleReBarBand(hEdit, NULL, TRUE);
+	//CEdit edit;
+	//auto hEdit = edit.Create(m_hWnd, CRect(0, 0, 300, 20), nullptr, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | ES_LOWERCASE);
+	//AddSimpleReBarBand(hEdit, NULL, TRUE);
 
 	CreateSimpleStatusBar();
 
