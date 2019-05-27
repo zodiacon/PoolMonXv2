@@ -89,6 +89,8 @@ void CView::UpdatePoolTags() {
 
 		for (auto i = 0; i < count; i++) {
 			const auto& info = m_PoolTags->TagInfo[i];
+			m_TotalPaged += info.PagedUsed;
+			m_TotalNonPaged += info.NonPagedUsed;
 			AddTag(info, i);
 		}
 		m_TagsView = m_Tags;
@@ -101,8 +103,11 @@ void CView::UpdatePoolTags() {
 		for (int i = 0; i < size; i++)
 			bitmap.insert(i);
 
+		m_TotalPaged = m_TotalNonPaged = 0;
 		for (auto i = 0; i < count; i++) {
 			const auto& info = m_PoolTags->TagInfo[i];
+			m_TotalPaged += info.PagedUsed;
+			m_TotalNonPaged += info.NonPagedUsed;
 
 			auto it = m_TagsMap.find(info.TagUlong);
 			if (it == m_TagsMap.end()) {
@@ -165,7 +170,9 @@ void CView::UpdateVisible() {
 }
 
 BOOL CView::PreTranslateMessage(MSG* pMsg) {
-	pMsg;
+	if (m_pFindDialog && m_pFindDialog->IsDialogMessageW(pMsg))
+		return TRUE;
+
 	return FALSE;
 }
 
@@ -418,6 +425,10 @@ LRESULT CView::OnEditFind(WORD, WORD, HWND, BOOL &) {
 		auto dlg = m_pFindDialog = new CFindReplaceDialog;
 		dlg->Create(TRUE, L"", nullptr, FR_DOWN | FR_NOWHOLEWORD, m_hWnd);
 		dlg->ShowWindow(SW_SHOW);
+	}
+	else {
+		m_pFindDialog->SetActiveWindow();
+		m_pFindDialog->SetFocus();
 	}
 
 	return 0;

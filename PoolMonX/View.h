@@ -70,6 +70,14 @@ public:
 	void AddCellColor(ULONG tag, const CellColor& cell, DWORD64 targetTime = 0);
 	void RemoveCellColor(ULONG tag);
 
+	size_t GetTotalPaged() const {
+		return m_TotalPaged;
+	}
+
+	size_t GetTotalNonPaged() const {
+		return m_TotalNonPaged;
+	}
+
 	BOOL PreTranslateMessage(MSG* pMsg);
 
 	// CCustomDraw
@@ -131,6 +139,7 @@ private:
 	CImageList m_Images;
 	CFindReplaceDialog* m_pFindDialog{ nullptr };
 	int m_UpdateInterval = 2000;
+	size_t m_TotalPaged = 0, m_TotalNonPaged = 0;
 	std::unordered_map<ULONG, std::shared_ptr<TagItem>> m_TagsMap;
 	std::vector<std::shared_ptr<TagItem>> m_Tags, m_TagsView;
 	std::map<CStringA, std::pair<CString, CString>> m_TagSource;

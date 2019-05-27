@@ -15,6 +15,10 @@
 #define ID_UPDATEINTERVAL_10SECONDS     32781
 #define ID_OPTIONS_ALWAYSONTOP          32782
 
+#define ID_PANE_PAGED_TOTAL 130
+#define ID_PANE_NONPAGED_TOTAL 131
+#define ID_PANE_ITEMS 132
+
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED

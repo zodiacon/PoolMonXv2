@@ -27,6 +27,7 @@ extern CAppModule _Module;
 #include <strsafe.h>
 #include <atlfile.h>
 #include <atlstr.h>
+#include <atlctrlx.h>
 #include <vector>
 #include <memory>
 #include <map>
