@@ -409,6 +409,23 @@ LRESULT CView::OnItemChanged(int, LPNMHDR, BOOL &) {
 	return 0;
 }
 
+LRESULT CView::OnFindItem(int, LPNMHDR nmhdr, BOOL &) {
+	auto fi = (NMLVFINDITEM*)nmhdr;
+	auto start = GetSelectedIndex() + 1;
+	auto count = GetItemCount();
+	CString text(fi->lvfi.psz);
+
+	if (fi->lvfi.flags & LVFI_STRING) {
+		for (int i = start; i < start + count; i++) {
+			if (CString(m_TagsView[i % count]->Tag).Mid(0, text.GetLength()).CompareNoCase(text) == 0) {
+				return i % count;
+			}
+		}
+	}
+
+	return -1;
+}
+
 LRESULT CView::OnEditCopy(WORD, WORD, HWND, BOOL &) {
 	int selected = GetSelectedIndex();
 	ATLASSERT(selected >= 0);
