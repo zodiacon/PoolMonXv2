@@ -54,7 +54,8 @@ public:
 		NonPagedUsage,
 
 		SourceName,
-		SourceDescription
+		SourceDescription,
+		NumColumns
 	};
 
 	DECLARE_WND_SUPERCLASS(nullptr, CListViewCtrl::GetWndClassName())
@@ -89,6 +90,7 @@ public:
 
 	BEGIN_UPDATE_UI_MAP(CView)
 		UPDATE_ELEMENT(ID_VIEW_PAUSE, UPDUI_MENUPOPUP | UPDUI_TOOLBAR)
+		UPDATE_ELEMENT(ID_EDIT_COPY, UPDUI_MENUPOPUP)
 		UPDATE_ELEMENT(ID_UPDATEINTERVAL_1SECOND, UPDUI_MENUPOPUP)
 		UPDATE_ELEMENT(ID_UPDATEINTERVAL_2SECONDS, UPDUI_MENUPOPUP)
 		UPDATE_ELEMENT(ID_UPDATEINTERVAL_5SECONDS, UPDUI_MENUPOPUP)
@@ -101,12 +103,14 @@ public:
 		MESSAGE_HANDLER(WM_DESTROY, OnDestroy)
 		MESSAGE_HANDLER(CFindReplaceDialog::GetFindReplaceMsg(), OnFindDialogMessage)
 		COMMAND_ID_HANDLER(ID_EDIT_FIND, OnEditFind)
+		COMMAND_ID_HANDLER(ID_EDIT_COPY, OnEditCopy)
 		COMMAND_ID_HANDLER(ID_VIEW_PAUSE, OnViewPauseResume)
 		COMMAND_RANGE_HANDLER(ID_UPDATEINTERVAL_1SECOND, ID_UPDATEINTERVAL_10SECONDS, OnChangeUpdateInterval);
 		CHAIN_MSG_MAP(CUpdateUI<CView>)
 		CHAIN_MSG_MAP_ALT(CCustomDraw<CView>, 1)
 		REFLECTED_NOTIFY_CODE_HANDLER(LVN_GETDISPINFO, OnGetDisplayInfo)
 		REFLECTED_NOTIFY_CODE_HANDLER(LVN_COLUMNCLICK, OnColumnClick)
+		REFLECTED_NOTIFY_CODE_HANDLER(LVN_ITEMCHANGED, OnItemChanged)
 		DEFAULT_REFLECTION_HANDLER()
 	END_MSG_MAP()
 
@@ -116,7 +120,8 @@ public:
 	LRESULT OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
 	LRESULT OnGetDisplayInfo(int /*idCtrl*/, LPNMHDR /*pnmh*/, BOOL& /*bHandled*/);
 	LRESULT OnColumnClick(int /*idCtrl*/, LPNMHDR /*pnmh*/, BOOL& /*bHandled*/);
-	LRESULT OnViewFilter(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
+	LRESULT OnItemChanged(int /*idCtrl*/, LPNMHDR /*pnmh*/, BOOL& /*bHandled*/);
+	LRESULT OnEditCopy(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnEditFind(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnChangeUpdateInterval(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnViewPauseResume(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
@@ -145,7 +150,6 @@ private:
 	std::map<CStringA, std::pair<CString, CString>> m_TagSource;
 
 	SYSTEM_POOLTAG_INFORMATION* m_PoolTags{ nullptr };
-	bool m_Error{ false };
 	bool m_Running{ true };
 	bool m_Ascending = true;
 };

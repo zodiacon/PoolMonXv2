@@ -31,10 +31,10 @@ LRESULT CMainFrame::OnTimer(UINT, WPARAM, LPARAM, BOOL &) {
 	text.Format(L"%d Tags", m_view.GetItemCount());
 	m_StatusBar.SetPaneText(ID_PANE_ITEMS, text);
 
-	text.Format(L"Total Paged: %u KB", (unsigned)(m_view.GetTotalPaged() >> 10));
+	text.Format(L"Paged: %u MB", (unsigned)(m_view.GetTotalPaged() >> 20));
 	m_StatusBar.SetPaneText(ID_PANE_PAGED_TOTAL, text);
 
-	text.Format(L"Total Non Paged: %u KB", (unsigned)(m_view.GetTotalNonPaged() >> 10));
+	text.Format(L"Non Paged: %u MB", (unsigned)(m_view.GetTotalNonPaged() >> 20));
 	m_StatusBar.SetPaneText(ID_PANE_NONPAGED_TOTAL, text);
 
 	return 0;
@@ -76,20 +76,18 @@ LRESULT CMainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/
 	AddSimpleReBarBand(hWndCmdBar);
 	AddSimpleReBarBand(hWndToolBar, NULL, TRUE);
 
-	//CEdit edit;
-	//auto hEdit = edit.Create(m_hWnd, CRect(0, 0, 300, 20), nullptr, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | ES_LOWERCASE);
-	//AddSimpleReBarBand(hEdit, NULL, TRUE);
-
-	CreateSimpleStatusBar();
+	CreateSimpleStatusBar(nullptr);
 
 	m_StatusBar.SubclassWindow(m_hWndStatusBar);
+	
 	int panes[] = {
-		ID_DEFAULT_PANE, ID_PANE_PAGED_TOTAL, ID_PANE_NONPAGED_TOTAL, ID_PANE_ITEMS
+		/*ID_DEFAULT_PANE,*/ ID_PANE_PAGED_TOTAL, ID_PANE_NONPAGED_TOTAL, ID_PANE_ITEMS
 	};
 	m_StatusBar.SetPanes(panes, _countof(panes), FALSE);
 
-	int widths[] = { 0, 200, 200, 100 };
-	SetPaneWidths(m_StatusBar, widths);
+	int widths[] = { 150, 300, 400 };
+	m_StatusBar.SetParts(_countof(panes), widths);
+	//SetPaneWidths(m_StatusBar, widths);
 
 	m_hWndClient = m_view.Create(m_hWnd, rcDefault, NULL,
 		WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_OWNERDATA,
