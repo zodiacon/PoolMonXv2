@@ -145,7 +145,7 @@ private:
 	int m_SortColumn = -1;
 	CImageList m_Images;
 	CFindReplaceDialog* m_pFindDialog{ nullptr };
-	int m_UpdateInterval = 2000;
+	int m_UpdateInterval = 1000;
 	size_t m_TotalPaged = 0, m_TotalNonPaged = 0;
 	std::unordered_map<ULONG, std::shared_ptr<TagItem>> m_TagsMap;
 	std::vector<std::shared_ptr<TagItem>> m_Tags, m_TagsView;

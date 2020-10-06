@@ -57,7 +57,6 @@ AECi - <unknown>    - filter object interface for MS acoustic echo canceller
 Afd? - afd.sys      - AFD objects
 AfdA - afd.sys      -     Afd EA buffer
 AfdB - afd.sys      -     Afd data buffer
-Afdb - afd.sys      -     Afd send dgram batch state
 AfdC - afd.sys      -     Afd connection structure
 AfdD - afd.sys      -     Afd debug data
 AfdE - afd.sys      -     Afd endpoint structure
@@ -241,10 +240,13 @@ CcBn - nt!cc        - Cache Manager Bcb trim notification entry
 CcBr - nt!cc        - Cache Manager Bitmap range
 CcBz - nt!cc        - Cache Manager Bcb Zone
 CcDw - nt!cc        - Cache Manager Deferred Write
+CcEC - nt!cc        - Cache Manager External Cache tracking structure
 CcEv - nt!cc        - Cache Manager Event
 CcFn - nt!cc        - Cache Manager File name for popups
 CCFF - CCFFilter.sys - Cluster Client Failover Filter
+Ccfx - nt!cc        - Cache Manager Registry value full info structure
 CcMb - nt!cc        - Cache Manager Mbcb
+CcNu - nt!cc        - Cache Manager NUMA structures
 CcOb - nt!cc        - Cache Manager Overlap Bcb
 CcPB - nt!ccpf      - Prefetcher trace buffer
 CcPC - nt!ccpf      - Prefetcher context
@@ -264,10 +266,12 @@ CcPh - nt!ccpf      - Prefetcher header preallocation
 CcPn - nt!ccpf      - Prefetcher name info
 CcPp - nt!ccpf      - Prefetcher instructions
 CcPq - nt!ccpf      - Prefetcher query buffer
+CcPr - nt!ccpf      - Cache Manager Partition structures
 CcPs - nt!ccpf      - Prefetcher section table
 CcPv - nt!ccpf      - Prefetcher volume info
 CcPw - nt!ccpf      - Prefetcher enable worker
 CcSc - nt!cc        - Cache Manager Shared Cache Map
+CcTe - nt!cc        - Cache Manager Telemetry allocation
 CcVa - nt!cc        - Cache Manager Initial array of Vacbs
 CcVl - nt!cc        - Cache Manager Vacb Level structures (large streams)
 CcVp - nt!cc        - Cache Manager Array of Vacb pointers for a cached stream
@@ -275,6 +279,7 @@ CctX - <unknown>    - EXIFX FCB Commit CTX
 CcWq - nt!cc        - Cache Manager Work Queue Item
 CcWK - nt!cc        - Kernel Cache Manager lookaside list
 CcWk - nt!cc        - Kernel Cache Manager lookaside list
+CcWR - nt!cc        - Cache Manager Registry watch structure
 CcZe - nt!cc        - Cache Manager Buffer of Zeros
 CDmp - crashdmp.sys - Crashdump driver
 CdA  - <unknown>    - CdAudio filter driver
@@ -622,10 +627,13 @@ EtwD - nt!etw       - Etw DataBlock
 EtwF - nt!etw       - Etw Filter
 EtwG - nt!etw       - Etw Guid
 EtwH - nt!etw       - Etw Private Handle Demuxing
+Etwi - nt!etw       - Etw IPT support
 EtwK - nt!etw       - Etw SoftRestart support
 Etwl - nt!etw       - Etw stack look-aside list entry
 EtwL - nt!etw       - Etw LoggerContext
 Etwm - nt!etw       - Etw BitMap
+Etwo - nt!etw       - Etw memory partition reference
+EtwO - nt!etw         Etw memory partition MDL
 Etwp - nt!etw       - Etw TracingBlock
 EtwP - nt!etw       - Etw Pool
 Etwq - nt!etw       - Etw ReplyQueue
@@ -636,7 +644,9 @@ EtwS - nt!etw       - Etw DataSource
 Etwt - nt!etw       - Etw temporary buffer
 EtwT - nt!etw       - Etw provider traits
 EtwU - nt!etw       - Etw Periodic Capture State
+EtwV - nt!etw       - Etw Coverage Sampling
 EtwW - nt!etw       - Etw WorkItem
+Etwx - nt!etw       - Etw LBR support
 EtwX - nt!etw       - Etw profiling support
 EtwZ - nt!etw       - Etw compression support
 
@@ -676,8 +686,10 @@ Fatv - fastfat.sys  - Fat backpocket Vpb
 Fatx - fastfat.sys  - Fat delayed close contexts
 FbCx - tcpip.sys    - Inet feature fallback contexts
 
-Fcbl - <unknown>    - EXIFS FCBlock
 fboX - <unknown>    - EXIFS FOBXVF List
+Fcbl - <unknown>    - EXIFS FCBlock
+
+Fcon - nt!RtlpFc    - Feature Configuration Management
 
 Feiv - netio.sys    - WFP filter engine incoming values
 Fecc - netio.sys    - WFP filter engine classify context
@@ -705,6 +717,7 @@ FlpM - tcpip.sys    - Framing Layer Multicast Groups
 FlpS - tcpip.sys    - Framing Layer Serialized Requests
 Fl6D - tcpip.sys    - FL6t DataLink Addresses
 Fl4D - tcpip.sys    - FL4t DataLink Addresses
+FltD - tcpip.sys    - FLt DataLink Addresses
 FlSB - tcpip.sys    - Framing Layer Stack Block
 
 Flop - <unknown>    - floppy driver
@@ -798,7 +811,7 @@ FS?? - nt!fsrtl     - Unrecoginzed File System Run Time allocations (update pool
 FSeh - nt!fsrtl     - File System Run Time Extra Create Parameter Entry
 FSel - nt!fsrtl     - File System Run Time Extra Create Parameter List
 FSfm - nt!fsrtl     - File System Run Time Fast Mutex Lookaside List
-FSim - nt!fsrtl     - File System Run Time Mcb Initial Mapping Lookaside List
+FSim - nt!fsrtl     - File System Run Time Mcb allocations
 FSrt - nt!fsrtl     - File System Run Time allocations (DO NOT USE!)
 FSmg - nt!fsrtl     - File System Run Time
 FSrd - nt!fsrtl     - File System Run Time
@@ -809,6 +822,34 @@ FSro - nt!fsrtl     - File System Run Time
 FSrs - nt!fsrtl     - File System Run Time Work Item for low-stack posting
 FSun - nt!fsrtl     - File System Run Time
 FOCX - nt!fsrtl     - File System Run Time File Object Context structure
+
+FsCo - fse.sys      - FSE_CORE_CONTEXT_OBJECT_POOL_TAG
+Fsbi - fse.sys      - FSE_CORE_NBLCHAIN_INDICATION_CONTEXT_POOL_TAG
+FsGo - fse.sys      - FSE_CORE_NDIS_GENERIC_OBJECT_POOL_TAG
+Fspe - fse.sys      - FSE_CORE_NIC_PAIR_ENTRY_POOL_TAG
+FsDC - fse.sys      - FSE_DEVICE_CONTEXT_TAG
+Fsed - fse.sys      - FSE_DIAGNOSTICS_SCRATCH_TAG
+FseB - fse.sys      - FSE_EXPANDABLE_BUFFER_SIGNATURE
+FsIP - fse.sys      - FSE_IPS_CLIENT_TAG
+FsIf - fse.sys      - FSE_IPS_CLIENT_INTERFACE_TAG
+Fsgo - fse.sys      - FSE_NDIS_GENERIC_OBJECT_POOL_TAG
+FsLS - fse.sys      - FSE_NMR_CLIENT_POOLTAG
+FseV - fse.sys      - FSE_PARTITION_SIGNATURE
+FseT - fse.sys      - FSE_PATCH_SIGNATURE
+FseC - fse.sys      - FSE_PORT_CACHE_SIGNATURE
+FsPp - fse.sys      - FSE_PORT_POLICY_TAG
+FseP - fse.sys      - FSE_PORT_POOL_SIGNATURE
+FseR - fse.sys      - FSE_PORT_RESERVATION_SIGNATURE
+FsGl - fse.sys      - FSE_SERVER_TAG_GLOBAL
+FsMt - fse.sys      - FSE_SERVER_TAG_MESSAGE
+FsMl - fse.sys      - FSE_SERVER_TAG_MIDL
+FsPd - fse.sys      - FSE_SERVER_TAG_PARTITION
+FsSt - fse.sys      - FSE_SERVER_TAG_SOCKET
+FsSc - fse.sys      - FSE_SERVER_TAG_SOCKET_CONTEXT
+FsWi - fse.sys      - FSE_SERVER_TAG_WORKITEM
+FseS - fse.sys      - FSE_SHIMS_TAG
+FseW - fse.sys      - FSE_WORKSHEET_POOLTAG
+FsTd - fse.sys      - FSE_PT_TEST_DRIVER_TAG
 
 FTrc - <unknown>    - Fault tolerance Slist tag.
 FtC  - <unknown>    - Fault tolerance driver
@@ -893,7 +934,29 @@ Gfcb - <unknown>    - EXIFS Grow FCB
 
 
 Hal  - hal.dll      - Hardware Abstraction Layer
+Hal2 - hal.dll      - Hardware Abstraction Layer: Secondary Interrupts
+HalA - hal.dll      - Hardware Abstraction Layer: ACPI
+Hala - hal.dll      - Hardware Abstraction Layer: HSA
+HalB - hal.dll      - Hardware Abstraction Layer: MM Buffer
+Halb - hal.dll      - Hardware Abstraction Layer: MM Metadata
+HalC - hal.dll      - Hardware Abstraction Layer: Dynamic Partitioning
+Halc - hal.dll      - Hardware Abstraction Layer: Processors
+HalD - hal.dll      - Hardware Abstraction Layer: DMA
+Hald - hal.dll      - Hardware Abstraction Layer: Kernel Debug
+HalE - hal.dll      - Hardware Abstraction Layer: Errata Management
+HalF - hal.dll      - Hardware Abstraction Layer: Firmware
+HalH - hal.dll      - Hardware Abstraction Layer: Hypervisor
+HalI - hal.dll      - Hardware Abstraction Layer: IOMMU
+Hali - hal.dll      - Hardware Abstraction Layer: Interrupts
+HalK - hal.dll      - Hardware Abstraction Layer: KINTERUPT objects
+HalM - hal.dll      - Hardware Abstraction Layer: Memory Management
+Halm - hal.dll      - Hardware Abstraction Layer: Misc
+HalP - hal.dll      - Hardware Abstraction Layer: PCI
+Halp - hal.dll      - Hardware Abstraction Layer: PNP
+Halo - hal.dll      - Hardware Abstraction Layer: Power
 HalV - ntoskrnl.exe - Driver Verifier DMA checking
+HalW - hal.dll      - Hardware Abstraction Layer: WHEA
+
 Hpfs - <unknown>    - Pinball (aka Hpfs) allocations
 HisC - <unknown>    - histogram filter driver
 Hist - <unknown>    - histogram filter driver
@@ -1983,12 +2046,13 @@ NSpc - nsi.dll      - NSI Proxy Contexts
 NSpg - nsi.dll      - NSI Proxy Generic Buffers
 
 REM NTFS Specific allocation tags
-Nt?? - ntfs.sys     - Unrecognized NTFS tag (update pooltag.w)
+Nt?? - ntfs.sys     - Unrecognized NTFS tag (update base\published\pooltag.w)
 NtAR - ntfs.sys     -     NTFS_ASYNC_CACHED_READ_CONTEXT
 Ntce - ntfs.sys     -     CLOSE_ENTRY
 NtEa - ntfs.sys     -     NTFS QueryOnCreate EA Buffer
 Ntf0 - ntfs.sys     -     General pool allocation
 Ntf9 - ntfs.sys     -     Large Temporary Buffer
+Ntf5 - ntfs.sys     -     Shared Security tracking (debug only)
 Ntfa - ntfs.sys     -     DELAYED_ALLOCATION
 NtfA - ntfs.sys     -     ALIGNED_MDL_CONTEXT
 NtfC - ntfs.sys     -     CCB
@@ -2000,28 +2064,32 @@ Ntff - ntfs.sys     -     FCB_DATA
 NtfF - ntfs.sys     -     FCB_INDEX
 NtfI - ntfs.sys     -     IO_CONTEXT
 Ntfi - ntfs.sys     -     IRP_CONTEXT
-NtfK - ntfs.sys     -     KEVENT
+NtfK - ntfs.sys     -     KEVENT                            NtfsKeventLookasideList
 Ntfk - ntfs.sys     -     FILE_LOCK
 Ntfl - ntfs.sys     -     LCB
 NtfM - ntfs.sys     -     NTFS_MCB_ENTRY
 Ntfm - ntfs.sys     -     NTFS_MCB_ARRAY
 NtfN - ntfs.sys     -     FILE_RECORDS_TO_DELETE
-Ntfn - ntfs.sys     -     SCB_NONPAGED
+Ntfn - ntfs.sys     -     SCB_NONPAGED                      NtfsScbNonpagedLookasideList
 Ntfo - ntfs.sys     -     SCB_INDEX normalized named buffer
+Ntfp - ntfs.sys     -     COMPRESSION_CONTEXT
 NtfQ - ntfs.sys     -     QUOTA_CONTROL_BLOCK
 Ntfq - ntfs.sys     -     General Allocation with Quota
 NtfR - ntfs.sys     -     READ_AHEAD_THREAD
 Ntfr - ntfs.sys     -     ERESOURCE
 NtfS - ntfs.sys     -     SCB_INDEX
 Ntfs - ntfs.sys     -     SCB_DATA
-NtfT - ntfs.sys     -     SCB_SNAPSHOT
+NtfT - ntfs.sys     -     SCB_SNAPSHOT                      NtfsScbSnapshotLookasideList
 Ntft - ntfs.sys     -     SCB (Prerestart)
 Ntfu - ntfs.sys     -     NTFS_MARK_UNUSED_CONTEXT
 NtfV - ntfs.sys     -     VPB
 Ntfv - ntfs.sys     -     COMPRESSION_SYNC
 Ntfw - ntfs.sys     -     Workspace
-Ntfx - ntfs.sys     -     General Allocation
+NtIO - ntfs.sys     -     NTFS IO perf
+NtMC - ntfs.sys     -     MAPCOUNT_LOG
 NtOi - ntfs.sys     -     OFFLOAD_IO_CONTEXT
+Ntop - ntfs.sys     -     NTFS_OPLOCK_OWNER_STACK_CAPTURE
+Ntrk - ntfs.sys     -     NTFS registry key name structures
 Ntrs - ntfs.sys     -     ROLLBACK_STRUCT
 Ntrt - ntfs.sys     -     RANGETRACK_LOCAL_STRUCT
 NtTc - ntfs.sys     -     FILE_LEVEL_TRIM_CONTEXT
@@ -2029,6 +2097,11 @@ NtTf - ntfs.sys     -     NTFS_DISK_FLUSH_CONTEXT           NtfsDiskFlushContext
 NtTr - ntfs.sys     -     DEVICE_MANAGE_DATA_SET_ATTRIBUTES NtfsDeviceManageDataSetAttributesLookasideList
 NtTo - ntfs.sys     -     DEVICE_MANAGE_DATA_SET_ATTRIBUTES NtfsFileOffloadLookasideList
 NtTe - ntfs.sys     -     NTFS Telemetry
+NtWR - ntfs.sys     -     REGISTRY_WATCH_CONTEXT
+NtxF - ntfs.sys     -     FCB_NONPAGED                      NtfsFcbNonpagedDataLookasideList
+NtxI - ntfs.sys     -     FCB_NONPAGED_INDEX                NtfsFcbNonpagedIndexLookasideList
+NtxM - ntfs.sys     -     FAST_MUTEXT                       NtfsFastMutexNonpagedLookasideList
+
 
 REM NTFS tags based on source module
 NtFa - ntfs.sys     -     AllocSup.c
@@ -2042,6 +2115,7 @@ NtFF - ntfs.sys     -     FileInfo.c
 NtFf - ntfs.sys     -     FsCtrl.c
 NtFH - ntfs.sys     -     SelfHeal.c
 NtFI - ntfs.sys     -     IndexSup.c
+Ntfj - ntfs.sys     -     ntfsinit.c
 NtFL - ntfs.sys     -     LogSup.c
 NtFM - ntfs.sys     -     McbSup.c
 NtFm - ntfs.sys     -     Ntfs MFT View Ref Counter Arrays
@@ -2055,7 +2129,9 @@ NtFU - ntfs.sys     -     usnsup.c
 NtFV - ntfs.sys     -     VerfySup.c
 NtFv - ntfs.sys     -     ViewSup.c
 NtFW - ntfs.sys     -     Write.c
-NtF? - ntfs.sys     -     Unknown NTFS source module
+NtFX - ntfs.sys     -     NtfsBlackbox.c
+NtMo - ntfs.sys     -     mount.c
+NtSr - ntfs.sys     -     srsup.c
 
 NulB - tlnull.sys   - Null TDI Buffers
 NulR - tlnull.sys   - Null TDI Requests
@@ -2580,6 +2656,7 @@ Refv - refs.sys     -     COMPRESSION_SYNC
 Refw - refs.sys     -     Workspace
 Refx - refs.sys     -     General Allocation
 Ref? - refs.sys     -     Unkown allocation
+ReIO - refs.sys     -     ReFS IO perf
 ReTc - refs.sys     -     FILE_LEVEL_TRIM_CONTEXT
 ReTm - refs.sys     -     DEVICE_MANAGE_DATA_SET_ATTRIBUTES RefsDeviceManageDataSetAttributesLookasideList
 ReTo - refs.sys     -     DEVICE_MANAGE_DATA_SET_ATTRIBUTES RefsFileOffloadLookasideList
@@ -2941,6 +3018,9 @@ SisL - <unknown>    -         SIS per link object
 SisS - <unknown>    -         SIS SCB
 Setp - <unknown>    - SETUPDD SpMemAlloc calls
 
+SMgk - vmsharedmemoryguestkernel.lib     - Virtual Machine Shared Memory Kernel Mode Guest Library
+SMhk - vmsharedmemoryhostkernel.lib      - Virtual Machine Shared Memory Kernel Mode Host Library
+
 SRdm - scsirdma.sys - Infiniband SRP driver
 
 StCc - netio.sys    - WFP stream inspection call context
@@ -3125,6 +3205,7 @@ SYSA - <unknown>    - Sysaudio (wdm audio)
 
 TAPI - <unknown>    - ntos\ndis\ndistapi
 
+TcAN - tcpip.sys    - TCPIP App Name
 TcAR - tcpip.sys    - TCP Abort Requests
 TcBW - tcpip.sys    - TCP Bandwidth Allocations
 TcCC - tcpip.sys    - TCP Create And Connect Tcb Pool
@@ -3139,6 +3220,7 @@ TcEW - tcpip.sys    - TCP Endpoint Work Queue Contexts
 TcFC - tcpip.sys    - TCP Fastopen Cookies
 TcFR - tcpip.sys    - TCP FineRTT Buffers
 TcHT - tcpip.sys    - TCP Hash Tables
+TcHo - tcpip.sys    - TCPIP Histogram
 TcIn - tcpip.sys    - TCP Inputs
 TcLS - tcpip.sys    - TCP Listener SockAddrs
 TcLW - tcpip.sys    - TCP Listener Work Queue Contexts
@@ -3148,6 +3230,7 @@ TcDM - tcpip.sys    - TCP Delayed Delivery Memory Descriptor Lists
 TcDN - tcpip.sys    - TCP Delayed Delivery Network Buffer Lists
 TcPC - tcpip.sys    - TCP Listener Pending Connections
 TcpE - tcpip.sys    - TCP Endpoints
+TTcb - tcpip.sys    - TCP Connections
 TcpI - tcpip.sys    - TCP ISN buffers
 TcpL - tcpip.sys    - TCP Listeners
 TcpM - tcpip.sys    - TCP Offload Miscellaneous buffers
@@ -3163,6 +3246,7 @@ TcRD - tcpip.sys    - TCP Receive DPC Data
 TcRe - tcpip.sys    - TCP Recovery Buffers
 TcRH - tcpip.sys    - TCP Reassembly Headers
 TcRL - tcpip.sys    - TCP Create And Connect Tcb Rate Limit Pool
+TcRN - tcpip.sys    - TCP Random Number Generator Pool
 TcRR - tcpip.sys    - TCP Receive Requests
 TcRW - tcpip.sys    - TCP Receive Window Tuning Blocks
 TcSa - tcpip.sys    - TCP Sack Data
@@ -3172,7 +3256,10 @@ TcTW - tcpip.sys    - TCP Time Wait TCBs
 TcUD - tcpip.sys    - TCP Urgent Delivery Buffers
 TcWQ - tcpip.sys    - TCP TCB Work Queue Contexts
 TcWS - tcpip.sys    - TCP Window Scaling Diagnostics
-TcRF - tcpip.sys    - TCP recent connection failure
+TcRF - tcpip.sys    - TCP Recent Connection Failure
+TcTI - tcpip.sys    - TCP Traceroute Info
+TcSk - tcpip.sys    - TCP Send Tracker
+TcTx - tcpip.sys    - TCP Transmit
 
 
 TDIc - <unknown>    - TDI resource
@@ -3266,7 +3353,6 @@ Ttnc -  tcpip.sys   - WFP tunnel nexthop context
 
 Tsmp - tcpip.sys    - TCP Send Memory Descriptor Lists
 TSNb - tcpip.sys    - TCP Send NetBuffers
-Tths - tcpip.sys    - TCP TFO histogram
 TTsp - tcpip.sys    - TCP TCB Sends
 
 TtCo - <unknown>    - TTCP Connections
@@ -3361,6 +3447,7 @@ UdMI - tcpip.sys    - UDP Message Indications
 UDNb - tcpip.sys    - UDP NetBuffers
 UdpA - tcpip.sys    - UDP Endpoints
 UdpH - tcpip.sys    - UDP Headers
+UdpI - tcpip.sys    - UDP Interface
 UdPM - tcpip.sys    - UDP Partial Memory Descriptor Lists
 UdpN - tcpip.sys    - UDP Name Service Interfaces
 UdSM - tcpip.sys    - UDP Send Messages Requests
@@ -4035,6 +4122,7 @@ Gla1 - win32k.sys                           - GDITAG_HMGR_LOOKASIDE_DC_TYPE
 Gla4 - win32k.sys                           - GDITAG_HMGR_LOOKASIDE_RGN_TYPE
 Gla5 - win32k.sys                           - GDITAG_HMGR_LOOKASIDE_SURF_TYPE
 Gla8 - win32k.sys                           - GDITAG_HMGR_LOOKASIDE_PAL_TYPE
+Glas - win32k.sys                           - GDITAG_SCAN_LOOKASIDE_LIST
 Gldv - win32k.sys                           - GDITAG_LDEV
 Glid - win32k!GetLanguageID                 - GDITAG_LOCALEINFO
 Glnk - win32k!FHOBJ::bAddPFELink            - GDITAG_PFE_LINK
@@ -4110,6 +4198,9 @@ Gelt - win32k!EntryDataLookupTable::Create  - GDITAG_ENTRY_DATA_LOOKUP_TABLE
 Gelc - win32k!EntryDataLookupTable::Initialize - GDITAG_ENTRY_DATA_LOOKUP_TABLE_COLUMN
 Gpbm - win32k.sys                           - GDITAG_POOL_BITMAP_BITS
 Gapl - win32k.sys                           - GDITAG_APAL_TABLE
+Gscn - win32k.sys                           - GDITAG_SCAN_ARRAY
+EKmm - win32kbase!EtwTraceAuditApiQueryAddressVADInformation - ETW_MEMORY_MAPPED_NAME_TAG
+EKsa - win32kbase!CAsyncKeyEventMonitor::operator new - USERTAG_ASYNCKEYEVENT
 Ucal - win32k!DriverEntry                   - USERTAG_SERVICE_TABLE
 Uiso - win32k!TypeIsolation::Create         - USERTAG_ISOHEAP
 Umam - win32k!UpdateDesktopThresholds       - USERTAG_MONITOR_MARGIN
@@ -4179,7 +4270,6 @@ Ushh - win32k!HidGetCaps                    - USERTAG_HID
 Ushi - win32k!AllocateHidDesc               - USERTAG_HIDINPUT
 Ushk - win32k!_RegisterHotKey               - USERTAG_HOTKEY
 Ushl - win32k!INLPHLPSTRUCT                 - USERTAG_HELP
-Ushp - win32k!GetDeviceParent               - USERTAG_HIDPARENT
 UshP - win32k!HidCreateDeviceInfo           - USERTAG_HIDPREPARSED
 Ushr - win32k!AllocateAndLinkHidPageOnlyRequest - USERTAG_HIDPAGEREQUEST
 UshR - win32k!AllocateHidProcessRequest     - USERTAG_HIDPROCREQUEST
@@ -4251,6 +4341,7 @@ Uspt - win32k!AllocThreadPointerData        - USERTAG_POINTERTHREADDATA
 Uspv - win32k!ContactVisualization          - USERTAG_POINTERVISUALIZATION
 Uspw - win32k!CDynamicArray::Add            - USERTAG_DYNAMICARRAY
 Uspx - win32k!GetCustomFlickPath            - USERTAG_PTRCFG
+Usph - win32k!CreateProp                    - USERTAG_PROPLISTHEADER
 Uspy - win32k!CreateProp                    - USERTAG_PROPLIST
 USqm - win32k!_WinSqmAllocate               - USERTAG_SQM
 Usql - win32k!EnsureQMsgLog                 - USERTAG_QMSGLOG
@@ -4270,7 +4361,6 @@ Ussj - win32k!NtUserSendTouchInput          - USERTAG_SENDTOUCHINPUT
 Ussm - win32k!InitSMSLookaside              - USERTAG_SMS
 Usss - win32k!xxxBroadcastMessage           - USERTAG_SMS_STRING
 Ussw - win32k!_BeginDeferWindowPos          - USERTAG_SWP
-Ussx - win32k!SetWindowExtendedBoundsMargin - USERTAG_UPDATEFRAMEMARGINS
 Ussh - win32k!zzzSetWindowsHookEx           - USERTAG_HOOK
 Uscd - win32k!GetCPD                        - USERTAG_CPD
 Ussw - win32k!xxxDesktopRecalc              - USERTAG_ADR
@@ -4322,15 +4412,14 @@ UsIb - win32k!NSInstrumentation::CReferenceTracker::CReferenceCountedType::Begin
 UsIc - win32k!NSInstrumentation::CSortedVector::Create   - USERTAG_SORTED_VECTOR
 UsId - win32k!NSInstrumentation::CSharedStorage::InitializeCommon   - USERTAG_SHARED_STORAGE
 Udpi - win32k!CreateSystemFontsForDpi       - USERTAG_DPIMETRICS
-Ubwd - win32kbase!NtMITMinuserWindowCreated - USERTAG_BASE_WINDOW
-Ubwp - win32kmin!CreateProp                 - USERTAG_BASE_WINDOW_PROPLIST
+Ubwd - win32kbase!NtUserCreateBaseWindow    - USERTAG_BASE_WINDOW
 Ubws - win32kmin!xxxMinSendPointerMessageWorker   - USERTAG_BASE_WINDOW_SENTLIST
 Urtm - win32kfull!InitRotationManager       - USERTAG_ROTMGR
 Usws - win32kfull!xxxCreateWindowEx         - USERTAG_WND_SERVER_EXTRA_BYTES
 Udwp - win32kbase!SetMonitorData            - USERTAG_REFCOUNTED_DPI_INFORMATION
 Uiim - win32kbase!CTouchProcessor::ForwardInputToManipulationThread - USERTAG_INPUT_INTEROP_MESSAGE
 Usdz - win32kbase!DelayZonePalmRejection::_AddDelayZoneToListInternal   - USERTAG_DELAYZONEINFO
-Uqcm - win32kmin!AllocQEntry - USERTAG_QMSG_COREMSGK_INFO
+Uvtp - win32kbase!VirtualTouchpadProcessor::GetInstance - USERTAG_VIRTUALTOUCHPAD
 Umen - win32kbase!HMAllocObject - USERTAG_MENU
 Umit - win32kfull!SetLPITEMInfoNoRedraw - USERTAG_MENUITEM
 Usol - win32kmin!InitSmartObjLookaside - USERTAG_SMOBJ_LOOKASIDE
@@ -4338,7 +4427,13 @@ Umsr - win32kfull!NtUserRequestMoveSizeOperation - USERTAG_MOVESIZE_REQUEST_PARA
 Ugwm - win32kfull!CWindowGroup::operator new - USERTAG_GROUP_WINDOW_MANAGEMENT
 Ucwp - win32kfull!CloneWindowPosAndArrangementAsync - USERTAG_CLONEWINDOWPOS
 Usol - win32kbase!InputTraceLogging::PerfRegion::Initialize - USERTAG_PERFREGION_LOOKASIDE
+Uagm - win32kbase!CActivationObjectManager::operator new - USERTAG_ACTIVATION_GROUP_MANAGEMENT
 Ucnv - win32kbase!InputObjectMap::AllocateBucket - USERTAG_INPUTOBJECTMAP
+Uvst - win32kfull!SetVisRgnTrackerProp - USERTAG_VISRGNTRACKER
+Urav - win32kmin!minPostInputMessage - USERTAG_QMSGVARPAYLOAD
+Ugcd - win32kbase!NtUserGetInputContainerId - USERTAG_CONTAINERINFO
+Umid - win32kfull!GetMouseDeviceHardwareId - USERTAG_MOUSE_HARDWARE_ID
+
 DCab - win32kbase!DirectComposition::CAnimationBinding::_allocate                               - DCOMPOSITIONTAG_ANIMATIONBINDING
 DCac - win32kbase!DirectComposition::CApplicationChannel::_allocate                             - DCOMPOSITIONTAG_APPLICATIONCHANNEL
 DCae - win32kbase!DirectComposition::CAnimationMarshaler::SetBufferProperty                     - DCOMPOSITIONTAG_ANIMATIONTIMEEVENTDATA
@@ -4346,9 +4441,9 @@ DCag - win32kbase!DirectComposition::CAnimationMarshaler::SetBufferProperty     
 DCal - win32kbase!DirectComposition::CAnimationTimeList::_allocate                              - DCOMPOSITIONTAG_ANIMATIONTIMELIST
 DCam - win32kbase!DirectComposition::CCompositionAmbientLight::_allocate                        - DCOMPOSITIONTAG_AMBIENTLIGHTMARSHALER
 DCan - win32kbase!DirectComposition::CAnimationMarshaler::_allocate                             - DCOMPOSITIONTAG_ANIMATIONMARSHALER
-DCat - win32kbase!DirectComposition::CAnimationTriggerMarshaler::_allocate                      - DCOMPOSITIONTAG_ANIMATIONTRIGGERMARSHALER
-DCau - win32kbase!DirectComposition::CSharedReadAnimationTriggerMarshaler::_allocate            - DCOMPOSITIONTAG_SHAREDREADANIMATIONTRIGGERMARSHALER
-DCav - win32kbase!DirectComposition::CSharedWriteAnimationTriggerMarshaler::_allocate           - DCOMPOSITIONTAG_SHAREDWRITEANIMATIONTRIGGERMARSHALER
+DCat - win32kbase!DirectComposition::CLegacyAnimationTriggerMarshaler::_allocate                - DCOMPOSITIONTAG_LEGACYANIMATIONTRIGGERMARSHALER
+DCau - win32kbase!DirectComposition::CSharedReadLegacyAnimationTriggerMarshaler::_allocate      - DCOMPOSITIONTAG_SHAREDREADLEGACYANIMATIONTRIGGERMARSHALER
+DCav - win32kbase!DirectComposition::CSharedWriteLegacyAnimationTriggerMarshaler::_allocate     - DCOMPOSITIONTAG_SHAREDWRITELEGACYANIMATIONTRIGGERMARSHALER
 DCax - win32kbase!DirectComposition::CAnalogExclusiveViewMarshaler::_allocate                   - DCOMPOSITIONTAG_ANALOGEXCLUSIVEVIEWMARSHALER
 DCay - win32kbase!DirectComposition::CAnalogTextureTargetMarshaler::_allocate                   - DCOMPOSITIONTAG_ANALOGTEXTURETARGETMARSHALER
 DCaz - win32kbase!DirectComposition::CAnalogCompositorMarshaler::_allocate                      - DCOMPOSITIONTAG_ANALOGCOMPOSITORMARSHALER
@@ -4381,18 +4476,15 @@ DCcy - win32kbase!DirectComposition::CCursorVisualMarshaler::_allocate          
 DCda - win32kbase!DirectComposition::CDCompDynamicArray::_allocate                              - DCOMPOSITIONTAG_DYNAMICARRAY
 DCdb - win32kbase!DirectComposition::CDCompDynamicArrayBase::_allocate                          - DCOMPOSITIONTAG_DYNAMICARRAYBASE
 DCdc - win32kbase!DirectComposition::CDwmChannel::_allocate                                     - DCOMPOSITIONTAG_DWMCHANNEL
-DCde - win32kbase!DirectComposition::CDesktopTargetMarshaler::_allocate                         - DCOMPOSITIONTAG_DESKTOPTARGETMARSHALER
-DCdf - win32kbase!DirectComposition::CSharedReadDesktopTargetMarshaler::_allocate               - DCOMPOSITIONTAG_SHAREDREADDESKTOPTARGETMARSHALER
-DCdg - win32kbase!DirectComposition::CSharedWriteDesktopTargetMarshaler::_allocate              - DCOMPOSITIONTAG_SHAREDWRITEDESKTOPTARGETMARSHALER
-DCdh - win32kbase!DirectComposition::CDesktopTargetMarshaler::_allocate                         - DCOMPOSITIONTAG_DESKTOPTARGETMARSHALERMONITORS
-DCdi - win32kbase!DirectComposition::CSharedReadDcompTargetMarshaler::_allocate                 - DCOMPOSITIONTAG_SHAREDREADDCOMPTARGETMARSHALER
-DCdj - win32kbase!DirectComposition::CSharedWriteDcompTargetMarshaler::_allocate                - DCOMPOSITIONTAG_SHAREDWRITEDCOMPTARGETMARSHALER
-DCdk - win32kbase!DirectComposition::CDcompTargetGroupMarshaler::_allocate                      - DCOMPOSITIONTAG_DCOMPTARGETGROUPMARSHALER
+DCdd - win32kbase!DirectComposition::CDDisplayRenderTargetMarshaler::_allocate                  - DCOMPOSITIONTAG_DDISPLAYRENDERTARGETMARSHALER
+DCde - win32kbase!DirectComposition::CDesktopTreeMarshaler::_allocate                           - DCOMPOSITIONTAG_DESKTOPTREEMARSHALER
+DCdj - win32kbase!DirectComposition::CLegacyStereoRenderTargetMarshaler::_allocate              - DCOMPOSITIONTAG_LEGACYSTEREORENDERTARGETMARSHALER
+DCdk - win32kbase!DirectComposition::CLegacyRenderTargetMarshaler::_allocate                    - DCOMPOSITIONTAG_LEGACYRENDERTARGETMARSHALER
 DCdl - win32kbase!DirectComposition::CCompositionDistantLight::_allocate                        - DCOMPOSITIONTAG_DISTANTLIGHTMARSHALER
-DCdm - win32kbase!DirectComposition::CRemotingRenderTargetMarshaler::_allocate                  - DCOMPOSITIONTAG_REMOTINGRENDERTARGETMARSHALER
-DCdn - win32kbase!DirectComposition::CSharedReadRemotingRenderTargetMarshaler::_allocate        - DCOMPOSITIONTAG_SHAREDREADREMOTINGRENDERTARGETMARSHALER
-DCdo - win32kbase!DirectComposition::CSharedWriteRemotingRenderTargetMarshaler::_allocate       - DCOMPOSITIONTAG_SHAREDWRITEREMOTINGRENDERTARGETMARSHALER
-DCdp - win32kbase!DirectComposition::COverlayRenderTargetMarshaler::_allocate                   - DCOMPOSITIONTAG_OVERLAYRENDERTARGETMARSHALER
+DCdm - win32kbase!DirectComposition::CRemoteAppRenderTargetMarshaler::_allocate                 - DCOMPOSITIONTAG_REMOTEAPPRENDERTARGETMARSHALER
+DCdn - win32kbase!DirectComposition::CSharedReadRemoteAppRenderTargetMarshaler::_allocate       - DCOMPOSITIONTAG_SHAREDREADREMOTEAPPRENDERTARGETMARSHALER
+DCdo - win32kbase!DirectComposition::CSharedWriteRemoteAppRenderTargetMarshaler::_allocate      - DCOMPOSITIONTAG_SHAREDWRITEREMOTEAPPRENDERTARGETMARSHALER
+DCdp - win32kbase!DirectComposition::CRemoteRenderTargetMarshaler::_allocate                    - DCOMPOSITIONTAG_REMOTERENDERTARGETMARSHALER
 DCds - win32kbase!DirectComposition::CDropShadowMarshaler::_allocate                            - DCOMPOSITIONTAG_DROPSHADOWMARSHALER
 DCef - win32kbase!DirectComposition::CCompiledEffect::_allocate                                 - DCOMPOSITIONTAG_COMPILEDEFFECTMARSHALER
 DCeg - win32kbase!DirectComposition::CEffectGroupMarshaler::_allocate                           - DCOMPOSITIONTAG_EFFECTGROUPMARSHALER
@@ -4409,11 +4501,10 @@ DCfi - win32kbase!DirectComposition::CFilterEffectMarshaler::Initialize         
 DCfj - win32kbase!DirectComposition::CFilterEffectMarshaler::Initialize                         - DCOMPOSITIONTAG_SUBRECTINPUTFLAGS
 DCg3 - win32kbase!DirectComposition::CTransform3DGroupMarshaler::_allocate                      - DCOMPOSITIONTAG_TRANSFORM3DGROUPMARSHALER
 DCgs - win32kbase!DirectComposition::CColorGradientStopMarshaler::_allocate                     - DCOMPOSITIONTAG_COLORGRADIENTSTOPMARSHALER
-DCgb - win32kbase!DirectComposition::CGdiBitmapMarshaler::_allocate                             - DCOMPOSITIONTAG_GDIBITMAPMARSHALER
 DCge - win32kbase!DirectComposition::CGaussianBlurEffectMarshaler::_allocate                    - DCOMPOSITIONTAG_GAUSSIANBLUREFFECTMARSHALER
 DCgi - win32kbase!DirectComposition::CGenericInkMarshaler::_allocate                            - DCOMPOSITIONTAG_GENERICINKMARSHALER
 DCgr - win32kbase!DirectComposition::CCompositionGlyphRunMarshaler::_allocate                   - DCOMPOSITIONTAG_COMPOSITIONGLYPHRUNMARSHALER
-DCgv - win32kbase!DirectComposition::CGlyphRunVisualMarshaler::_allocate                        - DCOMPOSITIONTAG_GLYPHRUNVISUALMARSHALER
+DCgs - win32kbase!DirectComposition::CGdiSpriteBitmapMarshaler::_allocate                       - DCOMPOSITIONTAG_GDISPRITEBITMAPMARSHALER
 DChb - win32kbase!DirectComposition::CHwndBitmapMarshaler::_allocate                            - DCOMPOSITIONTAG_HWNDBITMAPMARSHALER
 DChc - win32kbase!DirectComposition::CHolographicCompositionMarshaler::_allocate                - DCOMPOSITIONTAG_HOLOGRAPHICCOMPOSITIONMARSHALER
 DChd - win32kbase!DirectComposition::CHolographicDisplayMarshaler::_allocate                    - DCOMPOSITIONTAG_HOLOGRAPHICDISPLAYMARSHALER
@@ -4443,6 +4534,7 @@ DCjo - win32kbase!DirectComposition::CRadialGradientBrushMarshaler::_allocate   
 DCjs - win32kbase!DirectComposition::CSurfaceBrushMarshaler::_allocate                          - DCOMPOSITIONTAG_SURFACEBRUSHMARSHALER
 DCjw - win32kbase!DirectComposition::CWindowBackdropBrushMarshaler::_allocate                   - DCOMPOSITIONTAG_WINDOWBACKDROPBRUSHMARSHALER
 DCkf - win32kbase!DirectComposition::CKeyframeAnimationMarshaler::_allocate                     - DCOMPOSITIONTAG_KEYFRAMEANIMATIONMARSHALER
+DCks - win32kbase!DirectComposition::CKeyframeAnimationMarshaler::SetBufferProperty             - DCOMPOSITIONTAG_KEYFRAMEANIMATIONSCENARIOGUID
 DCkt - win32kbase!DirectComposition::CSkewTransformMarshaler::_allocate                         - DCOMPOSITIONTAG_SKEWTRANSFORMMARSHALER
 DClc - win32kbase!DirectComposition::CVisualMarshaler::_allocate                                - DCOMPOSITIONTAG_LAYOUTCONSTRAINTINFO
 DClg - win32kbase!DirectComposition::CLineGeometryMarshaler::_allocate                          - DCOMPOSITIONTAG_LINEGEOMETRYMARSHALER
@@ -4465,6 +4557,7 @@ DCmv - win32kbase!DirectComposition::CSharedMatrixTransformMarshaler::_allocate 
 DCna - win32kbase!DirectComposition::CNaturalAnimationMarshaler::_allocate                      - DCOMPOSITIONTAG_NATURALANIMATIONMARSHALER
 DCnb - win32kbase!DirectComposition::CDeletedNotificationList::EnsureTagAllocation              - DCOMPOSITIONTAG_DELETEDNOTIFICATIONLISTBUFFER
 DCnl - win32kbase!DirectComposition::CDeletedNotificationList::_allocate                        - DCOMPOSITIONTAG_DELETEDNOTIFICATIONLIST
+DCns - win32kbase!DirectComposition::CNaturalAnimationMarshaler::SetBufferProperty              - DCOMPOSITIONTAG_NATURALANIMATIONSCENARIOGUID
 DCoc - win32kbase!DirectComposition::CContainerShapeMarshaler::_allocate                        - DCOMPOSITIONTAG_CONTAINERSHAPEMARSHALER
 DCos - win32kbase!DirectComposition::CSpriteShapeMarshaler::_allocate                           - DCOMPOSITIONTAG_SPRITESHAPEMARSHALER
 DCpb - win32kbase!DirectComposition::CPropertySetMarshaler::_allocate                           - DCOMPOSITIONTAG_PROPERTYSETMARSHALER
@@ -4477,16 +4570,21 @@ DCpl - win32kbase!DirectComposition::PropertySetKernelModeAllocator::AllocateAnd
 DCpo - win32kbase!DirectComposition::CCompositionPointLight::_allocate                          - DCOMPOSITIONTAG_POINTLIGHTMARSHALER
 DCpr - win32kbase!DirectComposition::CPrimitiveMarshaler::_allocate                             - DCOMPOSITIONTAG_PRIMITIVEMARSHALER
 DCpy - win32kbase!DirectComposition::CPathGeometryMarshaler::_allocate                          - DCOMPOSITIONTAG_PATHGEOMETRYMARSHALER
-DCqv - win32kbase!DirectComposition::CParticleEmitterVisualMarshaler::_allocate                 - DCOMPOSITIONTAG_PARTICLEEMITTERVISUALMARSHALER
-DCqg - win32kbase!DirectComposition::CParticleGeneratorMarshaler::_allocate                     - DCOMPOSITIONTAG_PARTICLEGENERATORMARSHALER
+DCqa - win32kbase!DirectComposition::CParticleBaseBehaviorMarshaler::_allocate                  - DCOMPOSITIONTAG_PARTICLEBASEBEHAVIORMARSHALER
 DCqb - win32kbase!DirectComposition::CParticleBehaviorMarshaler::_allocate                      - DCOMPOSITIONTAG_PARTICLEBEHAVIORSMARSHALER
 DCqc - win32kbase!DirectComposition::CParticleColorRangeMarshaler::_allocate                    - DCOMPOSITIONTAG_PARTICLECOLORRANGEMARSHALER
+DCqd - win32kbase!DirectComposition::CParticleColorBehaviorMarshaler::_allocate                 - DCOMPOSITIONTAG_PARTICLECOLORBEHAVIORMARSHALER
+DCqe - win32kbase!DirectComposition::CParticleScalarBehaviorMarshaler::_allocate                - DCOMPOSITIONTAG_PARTICLESCALARBEHAVIORMARSHALER
+DCqf - win32kbase!DirectComposition::CParticleVector2BehaviorMarshaler::_allocate               - DCOMPOSITIONTAG_PARTICLEVECTOR2BEHAVIORMARSHALER
+DCqg - win32kbase!DirectComposition::CParticleGeneratorMarshaler::_allocate                     - DCOMPOSITIONTAG_PARTICLEGENERATORMARSHALER
+DCqh - win32kbase!DirectComposition::CParticleVector4BehaviorMarshaler::_allocate               - DCOMPOSITIONTAG_PARTICLEVECTOR4BEHAVIORMARSHALER
+DCqi - win32kbase!DirectComposition::CParticleVector3BehaviorMarshaler::_allocate               - DCOMPOSITIONTAG_PARTICLEVECTOR3BEHAVIORMARSHALER
+DCqr - win32kbase!DirectComposition::CParticleAttractorMarshaler::_allocate                     - DCOMPOSITIONTAG_PARTICLEATTRACTORMARSHALER
+DCqv - win32kbase!DirectComposition::CParticleEmitterVisualMarshaler::_allocate                 - DCOMPOSITIONTAG_PARTICLEEMITTERVISUALMARSHALER
+DCqw - win32kbase!DirectComposition::CParticleVector4RangeMarshaler::_allocate                  - DCOMPOSITIONTAG_PARTICLEVECTOR4RANGEMARSHALER
 DCqx - win32kbase!DirectComposition::CParticleScalarRangeMarshaler::_allocate                   - DCOMPOSITIONTAG_PARTICLESCALARRANGEMARSHALER
 DCqy - win32kbase!DirectComposition::CParticleSizeRangeMarshaler::_allocate                     - DCOMPOSITIONTAG_PARTICLESIZERANGEMARSHALER
 DCqz - win32kbase!DirectComposition::CParticleDirectionRangeMarshaler::_allocate                - DCOMPOSITIONTAG_PARTICLEDIRECTIONRANGEMARSHALER
-DCqw - win32kbase!DirectComposition::CParticleVector4RangeMarshaler::_allocate                  - DCOMPOSITIONTAG_PARTICLEVECTOR4RANGEMARSHALER
-DCqa - win32kbase!DirectComposition::CParticleBaseBehaviorMarshaler::_allocate                  - DCOMPOSITIONTAG_PARTICLEBINDINGARRAY
-DCqr - win32kbase!DirectComposition::CParticleAttractorMarshaler::_allocate                     - DCOMPOSITIONTAG_PARTICLEATTRACTORMARSHALER
 DCr3 - win32kbase!DirectComposition::CRotateTransform3DMarshaler::_allocate                     - DCOMPOSITIONTAG_ROTATETRANSFORM3DMARSHALER
 DCrc - win32kbase!DirectComposition::CRectangleClipMarshaler::_allocate                         - DCOMPOSITIONTAG_RECTANGLECLIPMARSHALER
 DCrf - win32kbase!DirectComposition::CVisualReferenceControllerMarshaler::_allocate             - DCOMPOSITIONTAG_VISUALREFERENCECONTROLLERMARSHALER
@@ -4502,6 +4600,8 @@ DCsb - win32kbase!DirectComposition::CCompositionSkyBoxBrushMarshaler::_allocate
 DCsc - win32kbase!DirectComposition::CSystemChannel::_allocate                                  - DCOMPOSITIONTAG_SYSTEMCHANNEL
 DCsd - win32kbase!DirectComposition::CStructDynamicArray::_allocate                             - DCOMPOSITIONTAG_STRUCTDYNAMICARRAY
 DCse - win32kbase!DirectComposition::CSynchronizationManager::_allocate                         - DCOMPOSITIONTAG_SYNCHRONIZATIONENTRY
+DCsf - win32kbase!DirectComposition::CCrossContainerGuestReadWriteSharedSectionMarshaler        - DCOMPOSITIONTAG_CROSSCONTAINERGUESTREADWRITESHAREDSECTIONMARSHALER
+DCsg - win32kbase!DirectComposition::CCrossContainerHostReadOnlySharedSectionMarshaler          - DCOMPOSITIONTAG_CROSSCONTAINERHOSTREADONLYSHAREDSECTIONMARSHALER
 DCsh - win32kbase!DirectComposition::CShapeVisualMarshaler::_allocate                           - DCOMPOSITIONTAG_SHAPEVISUALMARSHALER
 DCsi - win32kbase!DirectComposition::CSharedInteractionMarshaler::_allocate                     - DCOMPOSITIONTAG_SHAREDINTERACTIONMARSHALER
 DCsj - win32kbase!DirectComposition::CSharedReadInteractionMarshaler::_allocate                 - DCOMPOSITIONTAG_SHAREDREADINTERACTIONMARSHALER
@@ -4514,17 +4614,19 @@ DCsp - win32kbase!DirectComposition::CCompositionSpotLight::_allocate           
 DDsr - win32kbase!DirectComposition::CDataSourceReaderMarshaler::_allocate                      - DCOMPOSITIONTAG_DATASOURCEREADERMARSHALER
 DCss - win32kbase!DirectComposition::CSharedSectionMarshaler                                    - DCOMPOSITIONTAG_SHAREDSECTIONMARSHALER
 DCst - win32kbase!DirectComposition::CScaleTransformMarshaler::_allocate                        - DCOMPOSITIONTAG_SCALETRANSFORMMARSHALER
+DCsu - win32kbase!DirectComposition::CSuperWetInkVisualMarshaler::_allocate                     - DCOMPOSITIONTAG_SUPERWETINKVISUALMARSHALER
 DCsv - win32kbase!DirectComposition::CSpriteVisualMarshaler::_allocate                          - DCOMPOSITIONTAG_SPRITEVISUALMARSHALER
 DCsw - win32kbase!DirectComposition::CCompositionSurfaceWrapperMarshaler::_allocate             - DCOMPOSITIONTAG_SURFACEWRAPPERMARSHALER
+DCsy - win32kbase!DirectComposition::CSynchronousSuperWetInkMarshaler::_allocate                - DCOMPOSITIONTAG_SYNCHRONOUSSUPERWETINKMARSHALER
 DCt3 - win32kbase!DirectComposition::CTranslateTransform3DMarshaler::_allocate                  - DCOMPOSITIONTAG_TRANSLATETRANSFORM3DMARSHALER
 DCtc - win32kbase!DirectComposition::CTileClumpMarshaler::_allocate                             - DCOMPOSITIONTAG_TILECLUMPMARSHALER
 DCtg - win32kbase!DirectComposition::CTransformGroupMarshaler::_allocate                        - DCOMPOSITIONTAG_TRANSFORMGROUPMARSHALER
+DCtl - win32kbase!DirectComposition::CCompositionTextLineMarshaler::_allocate                   - DCOMPOSITIONTAG_COMPOSITIONTEXTLINEMARSHALER
 DCto - win32kbase!DirectComposition::CTelemetryInfo::_allocate                                  - DCOMPOSITIONTAG_TELEMETRYINFO
+DCtr - win32kbase!DirectComposition::CAnimationTriggerMarshaler::_allocate                      - DCOMPOSITIONTAG_ANIMATIONTRIGGERMARSHALER
 DCts - win32kbase!DirectComposition::_allocate                                                  - DCOMPOSITIONTAG_TELEMETRYSTRING
-DCtx - win32kbase!DirectComposition::CTextBrushMarshaler::_allocate                             - DCOMPOSITIONTAG_TEXTBRUSHMARSHALER
-DCty - win32kbase!DirectComposition::CTextBrushMarshaler::SetBufferProperty                     - DCOMPOSITIONTAG_TEXTFONTNAME
-DCtz - win32kbase!DirectComposition::CTextBrushMarshaler::SetBufferProperty                     - DCOMPOSITIONTAG_TEXTCONTENT
 DCtt - win32kbase!DirectComposition::CTranslateTransformMarshaler::_allocate                    - DCOMPOSITIONTAG_TRANSLATETRANSFORMMARSHALER
+DCtv - win32kbase!DirectComposition::CTextVisualMarshaler::_allocate                            - DCOMPOSITIONTAG_TEXTVISUALMARSHALER
 DCvb - win32kbase!DirectComposition::CViewBoxMarshaler::_allocate                               - DCOMPOSITIONTAG_VIEWBOXMARSHALER
 DCvc - win32kbase!DirectComposition::CVisualMarshaler::AllocateChildrenArray                    - DCOMPOSITIONTAG_VISUALMARSHALERCHILDREN
 DCvi - win32kbase!DirectComposition::CVisualMarshaler::_allocate                                - DCOMPOSITIONTAG_VISUALMARSHALER
@@ -4571,6 +4673,7 @@ TMac - dxgkrnl!CAdapter::Create                              - TOKENMANAGER_ADAP
 TMcc - dxgkrnl!CAdapterCollection::Create                    - TOKENMANAGER_ADAPTERCOLLECTION
 IMhq - win32k!CInputQueue::Create                           - INPUTMANAGER_INPUTQUEUE
 IMsg - win32k!CInputManager::Create                         - INPUTMANAGER_SESSIONGLOBAL
+FCbm - dxgkrnl!CBackchannelManager::CBackchannelManager - FLIPCONTENT_BACKCHANNELMANAGER
 FCbr - dxgkrnl!CPoolBufferResource::Create - FLIPCONTENT_BUFFERRESOURCE
 FCbs - dxgkrnl!CPoolBufferResourceState::operator new - FLIPCONTENT_BUFFERRESOURCESTATE
 FCcr - dxgkrnl!CContentResource::Create - FLIPCONTENT_CONTENTRESOURCE

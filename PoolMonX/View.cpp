@@ -17,13 +17,15 @@ void CView::LoadPoolTagText() {
 	ATLASSERT(hGlobal);
 
 	auto data = static_cast<const char*>(::LockResource(hGlobal));
-	auto next = data;
+	auto next = strchr(data, '\n');
 	for (; next; data = next + 1) {
-		next = strchr(data, '\n');
-
 		if (strncmp(data, "//", 2) == 0 || _strnicmp(data, "rem", 3) == 0
-			|| strncmp(data, "\r\n", 2) == 0)
+			|| strncmp(data, "\r\n", 2) == 0 || strncmp(data, "\n", 1) == 0) {
+			next = strchr(data, '\n');
 			continue;
+		}
+
+		next = strchr(data, '\n');
 
 		// read the tag
 		std::string tag(data, data + 4);
@@ -115,14 +117,13 @@ void CView::UpdatePoolTags() {
 			if (it == m_TagsMap.end()) {
 				// new tag
 				AddTag(info, i);
-				//SetColor(i, RGB(0, 255, 0), 2000);
 			}
 			else {
 				auto& newinfo = it->second->TagInfo;
 				bool changes = ::memcmp(&info, &newinfo, sizeof(info)) != 0;
 				if (changes) {
 					CellColor cell;
-					cell.BackColor = info.NonPagedUsed + info.PagedUsed > newinfo.PagedUsed + newinfo.NonPagedUsed ? RGB(0, 255, 255) : RGB(255, 192, 0);
+					cell.BackColor = info.NonPagedUsed + info.PagedUsed > newinfo.PagedUsed + newinfo.NonPagedUsed ? RGB(0, 255, 0) : RGB(255, 128, 0);
 					AddCellColor(info.TagUlong, cell);
 				}
 
@@ -438,7 +439,7 @@ LRESULT CView::OnEditCopy(WORD, WORD, HWND, BOOL &) {
 			line += L",";
 	}
 
-	if (::OpenClipboard(m_hWnd)) {
+	if (OpenClipboard()) {
 		::EmptyClipboard();
 		auto size = (line.GetLength() + 1) * sizeof(WCHAR);
 		auto hData = ::GlobalAlloc(GMEM_MOVEABLE, size);
@@ -486,7 +487,7 @@ LRESULT CView::OnChangeUpdateInterval(WORD, WORD id, HWND, BOOL &) {
 LRESULT CView::OnViewPauseResume(WORD, WORD, HWND, BOOL &) {
 	m_Running = !m_Running;
 	if (m_Running)
-		SetTimer(1, 1000, nullptr);
+		SetTimer(1, m_UpdateInterval, nullptr);
 	else
 		KillTimer(1);
 
