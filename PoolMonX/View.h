@@ -16,22 +16,27 @@ struct TagItem {
 };
 
 struct CellColorKey {
-	int Row, Column;
+	CellColorKey(ULONG tag, int col = 0) : Tag(tag), Column(col) {}
+
+	int Tag, Column;
 
 	bool operator ==(const CellColorKey& other) const {
-		return Row == other.Row && Column == other.Column;
+		return Tag == other.Tag && Column == other.Column;
 	}
 };
 
 template<>
 struct std::hash<CellColorKey> {
-	size_t operator()(const CellColorKey& key) const {
-		return (key.Row << 10) ^ key.Column;
+	const size_t operator()(const CellColorKey& key) const {
+		return (key.Column << 16) ^ key.Tag;
 	}
 };
 
 struct CellColor : CellColorKey {
+	using CellColorKey::CellColorKey;
+
 	COLORREF TextColor, BackColor;
+	DWORD64 TargetTime;
 	LOGFONT Font;
 };
 
@@ -68,8 +73,9 @@ public:
 	void DoSort();
 	void SetToolBar(HWND hWnd);
 
-	void AddCellColor(ULONG tag, const CellColor& cell, DWORD64 targetTime = 0);
-	void RemoveCellColor(ULONG tag);
+	void AddCellColor(CellColor& cell, DWORD64 targetTime = 0);
+	void RemoveCellColor(const CellColorKey& cell);
+	int GetChange(const SYSTEM_POOLTAG& info, const SYSTEM_POOLTAG& newinfo, ColumnType type) const;
 
 	size_t GetTotalPaged() const {
 		return m_TotalPaged;
@@ -134,13 +140,7 @@ public:
 	//	LRESULT NotifyHandler(int /*idCtrl*/, LPNMHDR /*pnmh*/, BOOL& /*bHandled*/)
 
 private:
-	struct TimerInfo {
-		DWORD64 TargetTime;
-		std::function<void(void)> Callback;
-		COLORREF Color;
-	};
-	std::vector<TimerInfo> m_Timers;
-	std::unordered_map<ULONG, CellColor> m_CellColors;
+	std::unordered_map<CellColorKey, CellColor> m_CellColors;
 
 	int m_SortColumn = -1;
 	CImageList m_Images;
@@ -148,7 +148,7 @@ private:
 	int m_UpdateInterval = 1000;
 	size_t m_TotalPaged = 0, m_TotalNonPaged = 0;
 	std::unordered_map<ULONG, std::shared_ptr<TagItem>> m_TagsMap;
-	std::vector<std::shared_ptr<TagItem>> m_Tags, m_TagsView;
+	std::vector<std::shared_ptr<TagItem>> m_Tags;
 	std::map<CStringA, std::pair<CString, CString>> m_TagSource;
 
 	SYSTEM_POOLTAG_INFORMATION* m_PoolTags{ nullptr };

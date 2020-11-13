@@ -66,13 +66,12 @@ void CView::LoadPoolTagText() {
 }
 
 void CView::UpdatePoolTags() {
-	m_CellColors.clear();
 	ULONG size = 1 << 22;
 	if (m_PoolTags == nullptr) {
 		LoadPoolTagText();
 		m_PoolTags = static_cast<SYSTEM_POOLTAG_INFORMATION*>(::VirtualAlloc(nullptr, size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE));
 		if (m_PoolTags == nullptr) {
-			AtlMessageBox(m_hWnd, L"Not enough memory");
+			AtlMessageBox(m_hWnd, L"Not enough memory", IDR_MAINFRAME, MB_ICONERROR);
 			PostQuitMessage(1);
 			return;
 		}
@@ -81,7 +80,7 @@ void CView::UpdatePoolTags() {
 	auto status = NtQuerySystemInformation(SystemInformationClass::SystemPoolTagInformation, m_PoolTags, size, &len);
 
 	if (status) {
-		AtlMessageBox(m_hWnd, L"Failed in getting pool information");
+		AtlMessageBox(m_hWnd, L"Failed in getting pool information", IDR_MAINFRAME, MB_ICONERROR);
 		PostQuitMessage(1);
 		return;
 	}
@@ -97,19 +96,18 @@ void CView::UpdatePoolTags() {
 			m_TotalNonPaged += info.NonPagedUsed;
 			AddTag(info, i);
 		}
-		m_TagsView = m_Tags;
 		SetItemCount(count);
 	}
 	else {
-		std::unordered_set<int> bitmap;
 		int size = static_cast<int>(m_Tags.size());
-		bitmap.reserve(size);
+		std::unordered_set<int> set;
 		for (int i = 0; i < size; i++)
-			bitmap.insert(i);
+			set.insert(i);
 
 		m_TotalPaged = m_TotalNonPaged = 0;
 		for (decltype(count) i = 0; i < count; i++) {
 			const auto& info = m_PoolTags->TagInfo[i];
+
 			m_TotalPaged += info.PagedUsed;
 			m_TotalNonPaged += info.NonPagedUsed;
 
@@ -117,25 +115,32 @@ void CView::UpdatePoolTags() {
 			if (it == m_TagsMap.end()) {
 				// new tag
 				AddTag(info, i);
+				count++;
 			}
 			else {
 				auto& newinfo = it->second->TagInfo;
-				bool changes = ::memcmp(&info, &newinfo, sizeof(info)) != 0;
-				if (changes) {
-					CellColor cell;
-					cell.BackColor = info.NonPagedUsed + info.PagedUsed > newinfo.PagedUsed + newinfo.NonPagedUsed ? RGB(0, 255, 0) : RGB(255, 128, 0);
-					AddCellColor(info.TagUlong, cell);
+				
+				for (int col = 0; col < (int)ColumnType::NumColumns; col++) {
+					auto change = GetChange(newinfo, info, (ColumnType)col);
+					if(change) {
+						CellColor cell(info.TagUlong, col);
+						cell.BackColor = change > 0 ? RGB(0, 240, 0) : RGB(255, 64, 0);
+						AddCellColor(cell, ::GetTickCount64() + 2000);
+					}
+					//else {
+					//	RemoveCellColor(CellColorKey(i, col));
+					//}
 				}
-
-				bitmap.erase(it->second->Index);
 				it->second->TagInfo = info;
 				it->second->Index = i;
+				set.erase(i);
 			}
 		}
 
 		int bias = 0;
-		for (auto index : bitmap) {
+		for (auto index : set) {
 			int i = index - bias;
+			count--;
 			m_TagsMap.erase(m_Tags[i]->TagInfo.TagUlong);
 			m_Tags.erase(m_Tags.begin() + i);
 			bias++;
@@ -162,7 +167,6 @@ void CView::AddTag(const SYSTEM_POOLTAG& info, int index) {
 	}
 
 	m_Tags.push_back(item);
-	m_TagsView.push_back(item);
 	m_TagsMap.insert({ info.TagUlong, item });
 }
 
@@ -184,23 +188,26 @@ DWORD CView::OnPrePaint(int id, LPNMCUSTOMDRAW cd) {
 }
 
 DWORD CView::OnItemPrePaint(int id, LPNMCUSTOMDRAW cd) {
-	if ((cd->dwDrawStage & CDDS_ITEM) == 0)
-		return CDRF_DODEFAULT;
-
-	auto lcd = (LPNMLVCUSTOMDRAW)cd;
-	int row = static_cast<int>(cd->dwItemSpec);
-	int col = lcd->iSubItem;
-
-	auto& item = m_TagsView[row];
-	if (auto it = m_CellColors.find(item->TagInfo.TagUlong); it != m_CellColors.end()) {
-		lcd->clrTextBk = it->second.BackColor;
-	}
-
-	return CDRF_DODEFAULT;
+	return CDRF_NOTIFYSUBITEMDRAW;
 }
 
 DWORD CView::OnSubItemPrePaint(int id, LPNMCUSTOMDRAW cd) {
-	return 0;
+	auto lcd = (LPNMLVCUSTOMDRAW)cd;
+	int row = static_cast<int>(cd->dwItemSpec);
+	int col = lcd->iSubItem;
+	lcd->clrTextBk = CLR_INVALID;
+
+	const auto& item = m_Tags[row];
+	CellColorKey key(item->TagInfo.TagUlong, col);
+	if (auto it = m_CellColors.find(key); it != m_CellColors.end()) {
+		auto& cc = it->second;
+		if (cc.TargetTime > 0 && cc.TargetTime < ::GetTickCount64())
+			m_CellColors.erase(key);
+		else
+			lcd->clrTextBk = it->second.BackColor;
+	}
+
+	return CDRF_DODEFAULT;
 }
 
 BOOL CView::OnIdle() {
@@ -228,7 +235,7 @@ LRESULT CView::OnFindDialogMessage(UINT msg, WPARAM wParam, LPARAM lParam, BOOL 
 	int findIndex = -1;
 	for (int i = from; i != to; i += step) {
 		int index = i % GetItemCount();
-		const auto& item = m_TagsView[index];
+		const auto& item = m_Tags[index];
 		CString text(item->Tag);
 		if (ignoreCase)
 			text.MakeLower();
@@ -308,7 +315,7 @@ LRESULT CView::OnGetDisplayInfo(int, LPNMHDR nmhdr, BOOL &) {
 	auto disp = (NMLVDISPINFO*)nmhdr;
 	auto& item = disp->item;
 	auto index = item.iItem;
-	auto& info = *m_TagsView[index];
+	auto& info = *m_Tags[index];
 
 	if (disp->item.mask & LVIF_TEXT) {
 		switch (disp->item.iSubItem) {
@@ -418,7 +425,7 @@ LRESULT CView::OnFindItem(int, LPNMHDR nmhdr, BOOL &) {
 
 	if (fi->lvfi.flags & LVFI_STRING) {
 		for (int i = start; i < start + count; i++) {
-			if (CString(m_TagsView[i % count]->Tag).Mid(0, text.GetLength()).CompareNoCase(text) == 0) {
+			if (CString(m_Tags[i % count]->Tag).Mid(0, text.GetLength()).CompareNoCase(text) == 0) {
 				return i % count;
 			}
 		}
@@ -566,7 +573,7 @@ bool CView::CompareItems(const TagItem& item1, const TagItem& item2) {
 }
 
 void CView::DoSort() {
-	std::sort(m_TagsView.begin(), m_TagsView.end(), [this](const auto& i1, const auto& i2) {
+	std::sort(m_Tags.begin(), m_Tags.end(), [this](const auto& i1, const auto& i2) {
 		return CompareItems(*i1, *i2);
 		});
 }
@@ -575,18 +582,34 @@ void CView::SetToolBar(HWND hWnd) {
 	UIAddToolBar(hWnd);
 }
 
-void CView::AddCellColor(ULONG tag, const CellColor & cell, DWORD64 targetTime) {
-	m_CellColors.insert({ tag, cell });
-	if (targetTime > 0) {
-		TimerInfo timer;
-		timer.TargetTime = targetTime;
-		timer.Callback = [this, tag]() {
-			RemoveCellColor(tag);
-		};
-		m_Timers.push_back(timer);
-	}
+void CView::AddCellColor(CellColor& cell, DWORD64 targetTime) {
+	cell.TargetTime = targetTime;
+	m_CellColors.insert({ cell, cell });
 }
 
-void CView::RemoveCellColor(ULONG tag) {
-	m_CellColors.erase(tag);
+void CView::RemoveCellColor(const CellColorKey& key) {
+	m_CellColors.erase(key);
+}
+
+int CView::GetChange(const SYSTEM_POOLTAG& info, const SYSTEM_POOLTAG& newinfo, ColumnType type) const {
+	static const auto compare = [](const auto v1, const auto v2) -> int {
+		if (v1 > v2)
+			return -1;
+		if (v2 > v1)
+			return 1;
+		return 0;
+	};
+
+	switch (type) {
+		case ColumnType::NonPagedAllocs: return compare(info.NonPagedAllocs, newinfo.NonPagedAllocs);
+		case ColumnType::NonPagedFrees: return compare(info.NonPagedFrees, newinfo.NonPagedFrees);
+		case ColumnType::NonPagedDiff: return compare(info.NonPagedAllocs - info.NonPagedFrees, newinfo.NonPagedAllocs - newinfo.NonPagedFrees);
+		case ColumnType::NonPagedUsage: return compare(info.NonPagedUsed, newinfo.NonPagedUsed);
+
+		case ColumnType::PagedAllocs: return compare(info.PagedAllocs, newinfo.PagedAllocs);
+		case ColumnType::PagedFrees: return compare(info.PagedFrees, newinfo.PagedFrees);
+		case ColumnType::PagedDiff: return compare(info.PagedAllocs - info.PagedFrees, newinfo.PagedAllocs - newinfo.PagedFrees);
+		case ColumnType::PagedUsage: return compare(info.PagedUsed, newinfo.PagedUsed);
+	}
+	return 0;
 }
