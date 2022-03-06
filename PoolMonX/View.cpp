@@ -271,10 +271,10 @@ LRESULT CView::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandled)
 	InsertColumn(ColumnType::PagedDiff, L"Paged Diff", LVCFMT_RIGHT, 80);
 	InsertColumn(ColumnType::PagedUsage, L"Paged Usage", LVCFMT_RIGHT, 100);
 
-	InsertColumn(ColumnType::NonPagedAllocs, L"Non Paged Allocs", LVCFMT_RIGHT, 120);
-	InsertColumn(ColumnType::NonPagedFrees, L"Non Paged Frees", LVCFMT_RIGHT, 120);
-	InsertColumn(ColumnType::NonPagedDiff, L"Non Paged Diff", LVCFMT_RIGHT, 100);
-	InsertColumn(ColumnType::NonPagedUsage, L"Non Paged Usage", LVCFMT_RIGHT, 100);
+	InsertColumn(ColumnType::NonPagedAllocs, L"NPaged Allocs", LVCFMT_RIGHT, 120);
+	InsertColumn(ColumnType::NonPagedFrees, L"NPaged Frees", LVCFMT_RIGHT, 120);
+	InsertColumn(ColumnType::NonPagedDiff, L"NPaged Diff", LVCFMT_RIGHT, 100);
+	InsertColumn(ColumnType::NonPagedUsage, L"NPaged Usage", LVCFMT_RIGHT, 100);
 
 	InsertColumn(ColumnType::SourceName, L"Source", LVCFMT_LEFT, 150);
 	InsertColumn(ColumnType::SourceDescription, L"Source Description", LVCFMT_LEFT, 350);
@@ -286,7 +286,7 @@ LRESULT CView::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandled)
 
 	SetTimer(1, m_UpdateInterval, nullptr);
 
-	CMessageLoop* pLoop = _Module.GetMessageLoop();
+	auto pLoop = _Module.GetMessageLoop();
 	pLoop->AddIdleHandler(this);
 
 	return 0;
@@ -301,7 +301,7 @@ LRESULT CView::OnTimer(UINT, WPARAM wParam, LPARAM, BOOL &) {
 
 LRESULT CView::OnDestroy(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandled) {
 	if (m_PoolTags)
-		::VirtualFree(m_PoolTags, 0, MEM_DECOMMIT | MEM_RELEASE);
+		::VirtualFree(m_PoolTags, 0, MEM_RELEASE);
 
 	CMessageLoop* pLoop = _Module.GetMessageLoop();
 	ATLASSERT(pLoop);
